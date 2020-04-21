@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:mobbank/animation/fade_animation.dart';
 import 'package:mobbank/locator.dart';
+import 'package:mobbank/models/dialog_models.dart';
+import 'package:mobbank/services/authentication_service.dart';
+import 'package:mobbank/services/dialog_service.dart';
 import 'package:mobbank/services/navigation_service.dart';
 import 'package:mobbank/constants/route_names.dart';
 
@@ -11,6 +14,8 @@ class SignIn extends StatefulWidget {
 
 class _SignInState extends State<SignIn> {
   final NavigationService _navigationService = locator<NavigationService>();
+  final AuthenticationService _authenticationService =
+      locator<AuthenticationService>();
 
   @override
   Widget build(BuildContext context) {
@@ -119,10 +124,21 @@ class _SignInState extends State<SignIn> {
                 Center(
                   child: FadeAnimation(
                     1,
-                    Text(
-                      "Esqueci minha senha",
-                      style: TextStyle(
-                        color: Colors.pink[200],
+                    FlatButton(
+                      onPressed: () => showDialog(
+                        context: context,
+                        builder: (contextDialog) {
+                          return PasswordAuthDialog(
+                              onConfirm: (String email) async =>
+                                  await _authenticationService.forgotPassword(
+                                      email: email));
+                        },
+                      ),
+                      child: Text(
+                        "Esqueci minha senha",
+                        style: TextStyle(
+                          color: Colors.pink[200],
+                        ),
                       ),
                     ),
                   ),

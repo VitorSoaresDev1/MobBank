@@ -8,11 +8,17 @@ class BusyButton extends StatefulWidget {
   final Function onPressed;
   final bool enabled;
   final Color color;
+  final double width;
+  final double height;
+  final double shape;
   const BusyButton(
       {@required this.title,
       this.busy = false,
       @required this.onPressed,
       @required this.color,
+      this.width = 15,
+      this.height = 15,
+      this.shape = 5,
       this.enabled = true});
 
   @override
@@ -31,11 +37,11 @@ class _BusyButtonState extends State<BusyButton> {
           duration: const Duration(milliseconds: 300),
           alignment: Alignment.center,
           padding: EdgeInsets.symmetric(
-              horizontal: widget.busy ? 10 : 15,
-              vertical: widget.busy ? 10 : 10),
+              horizontal: widget.busy ? 5 : widget.width,
+              vertical: widget.busy ? 5 : widget.height),
           decoration: BoxDecoration(
             color: widget.enabled ? widget.color : Colors.grey[300],
-            borderRadius: BorderRadius.circular(5),
+            borderRadius: BorderRadius.circular(widget.shape),
           ),
           child: !widget.busy
               ? Text(

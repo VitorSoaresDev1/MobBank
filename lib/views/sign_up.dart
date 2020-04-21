@@ -126,6 +126,7 @@ class _SignUpState extends State<SignUp> {
                                   ),
                                   child: TextFormField(
                                     controller: _userController,
+                                    keyboardType: TextInputType.emailAddress,
                                     decoration: InputDecoration(
                                       border: InputBorder.none,
                                       hintText: "Usuário",

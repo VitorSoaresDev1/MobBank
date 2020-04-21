@@ -188,6 +188,7 @@ class _PasswordAuthDialogState extends State<PasswordAuthDialog> {
               child: TextField(
                 key: passwordAuthDialogTextFieldPassword,
                 controller: _emailController,
+                keyboardType: TextInputType.emailAddress,
                 obscureText: false,
                 textAlign: TextAlign.center,
                 decoration: InputDecoration(border: UnderlineInputBorder()),

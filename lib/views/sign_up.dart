@@ -14,7 +14,8 @@ class SignUp extends StatefulWidget {
 class _SignUpState extends State<SignUp> {
   //final NavigationService _navigationService = locator<NavigationService>();
   GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
-  final TextEditingController _userController = new TextEditingController();
+  final TextEditingController _nomeController = new TextEditingController();
+  final TextEditingController _emailController = new TextEditingController();
   final TextEditingController _passwordController = new TextEditingController();
   final TextEditingController _passwordConfirmController =
       new TextEditingController();
@@ -125,11 +126,29 @@ class _SignUpState extends State<SignUp> {
                                     ),
                                   ),
                                   child: TextFormField(
-                                    controller: _userController,
+                                    controller: _nomeController,
+                                    decoration: InputDecoration(
+                                      border: InputBorder.none,
+                                      hintText: "Nome Completo",
+                                      hintStyle: TextStyle(color: Colors.grey),
+                                    ),
+                                  ),
+                                ),
+                                Container(
+                                  padding: EdgeInsets.all(10.0),
+                                  decoration: BoxDecoration(
+                                    border: Border(
+                                      bottom: BorderSide(
+                                        color: Colors.grey[100],
+                                      ),
+                                    ),
+                                  ),
+                                  child: TextFormField(
+                                    controller: _emailController,
                                     keyboardType: TextInputType.emailAddress,
                                     decoration: InputDecoration(
                                       border: InputBorder.none,
-                                      hintText: "Usuário",
+                                      hintText: "E-mail",
                                       hintStyle: TextStyle(color: Colors.grey),
                                     ),
                                   ),
@@ -205,7 +224,8 @@ class _SignUpState extends State<SignUp> {
                               if (_passwordController.text ==
                                   _passwordConfirmController.text) {
                                 model.signUp(
-                                    email: _userController.text,
+                                    nome: _nomeController.text,
+                                    email: _emailController.text,
                                     password: _passwordController.text);
                               } else {
                                 _scaffoldKey.currentState.showSnackBar(SnackBar(

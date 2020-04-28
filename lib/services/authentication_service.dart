@@ -1,11 +1,10 @@
 import 'package:flutter/foundation.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:mobbank/locator.dart';
-import 'package:mobbank/services/dialog_service.dart';
 
 class AuthenticationService {
   final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
-  final DialogService _dialogService = locator<DialogService>();
+
+  Future getUser() async => await _firebaseAuth.currentUser();
 
   Future loginWithEmail({
     @required String email,

@@ -8,7 +8,7 @@ Route<dynamic> generateRoute(RouteSettings settings) {
     case DashBoardRoute:
       return _getPageRoute(
         routeName: settings.name,
-        viewToShow: Dashboard(),
+        viewToShow: Dashboard(arguments: settings.arguments),
       );
     case SignUpRoute:
       return _getPageRoute(

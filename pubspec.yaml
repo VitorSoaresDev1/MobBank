@@ -27,10 +27,15 @@ dependencies:
   get_it: ^4.0.1
   firebase_auth:
   provider_architecture: ^1.0.6
-  
+  http:
+  http_interceptor:
+  mobx:
+  flutter_mobx:
 dev_dependencies:
   flutter_test:
     sdk: flutter
+  build_runner:
+  mobx_codegen:
 
 
 # For information on the generic Dart part of this file, see the

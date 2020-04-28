@@ -4,6 +4,7 @@ import 'package:mobbank/services/authentication_service.dart';
 import 'package:mobbank/services/dialog_service.dart';
 import 'package:mobbank/services/navigation_service.dart';
 import 'package:mobbank/constants/route_names.dart';
+import 'package:mobbank/services/user_service.dart';
 
 import 'base_model.dart';
 
@@ -12,6 +13,7 @@ class SignInViewModel extends BaseModel {
       locator<AuthenticationService>();
   final DialogService _dialogService = locator<DialogService>();
   final NavigationService _navigationService = locator<NavigationService>();
+  final UsersService _usersService = locator<UsersService>();
 
   Future logIn({
     @required String email,
@@ -26,7 +28,8 @@ class SignInViewModel extends BaseModel {
 
     if (result is bool) {
       if (result) {
-        _navigationService.replaceWith(DashBoardRoute);
+        _navigationService.replaceWith(DashBoardRoute,
+            arguments: [await _usersService.getUsuario(email)]);
       } else {
         await _dialogService.showDialog(
           title: 'Falha no Login',

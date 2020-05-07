@@ -17,26 +17,22 @@ abstract class _CardListLength with Store {
 
   @observable
   int count = 0;
-  @observable
-  int roll = 0;
+
   @observable
   Usuario user = Usuario();
 
   @action
-  Future<void> setCount() async {
+  Future<void> setCountAndSaveCard() async {
     FirebaseUser fireUser = await _firebaseAuth.currentUser();
     user = await _usersService.getUsuario(fireUser.email);
     await _bankCardService.saveCard(user);
-    List<BankCard> cardList = await _bankCardService.getUserCards(user.getId());
+    List<BankCard> cardList = await _bankCardService.getUserCards(user.id);
     count = cardList.length;
-    roll++;
   }
 
   @action
-  void resetRoll() {
-    roll = 0;
+  Future<void> setCount(userid) async {
+    List<BankCard> cardList = await _bankCardService.getUserCards(userid);
+    count = cardList.length;
   }
-
-  @computed
-  int get rolling => roll;
 }

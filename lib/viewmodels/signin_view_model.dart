@@ -24,8 +24,6 @@ class SignInViewModel extends BaseModel {
     var result = await _authenticationService.loginWithEmail(
         email: email, password: password);
 
-    setBusy(false);
-
     if (result is bool) {
       if (result) {
         _navigationService.replaceWith(DashBoardRoute,

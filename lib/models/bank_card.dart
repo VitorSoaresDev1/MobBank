@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:flutter_money_formatter/flutter_money_formatter.dart';
 import 'package:mobbank/models/usuario.dart';
 
 class BankCard {
@@ -18,11 +19,30 @@ class BankCard {
     this.saldo,
   });
 
+  get spacedAccountNumber =>
+      '${numeroConta.substring(0, 3)} . ${numeroConta.substring(3, 6)} . ${numeroConta.substring(6, 9)}';
+
+  get currency {
+    FlutterMoneyFormatter fmf = new FlutterMoneyFormatter(
+        amount: 155248.80,
+        settings: MoneyFormatterSettings(
+            symbol: 'R\$',
+            thousandSeparator: '.',
+            decimalSeparator: ',',
+            symbolAndNumberSeparator: ' ',
+            fractionDigits: 2,
+            compactFormatType: CompactFormatType.short));
+    String currency = fmf.output.symbolOnLeft;
+    return currency;
+  }
+
   Map<String, dynamic> toMap() {
     return {
       'id': id,
-      'dataCriacao': dataCriacao?.millisecondsSinceEpoch,
-      'dataExpiracao': dataExpiracao?.millisecondsSinceEpoch,
+      'dataCriacao': DateTime.fromMillisecondsSinceEpoch(
+          dataCriacao?.millisecondsSinceEpoch),
+      'dataExpiracao': DateTime.fromMillisecondsSinceEpoch(
+          dataExpiracao?.millisecondsSinceEpoch),
       'numeroConta': numeroConta,
       'ownerId': ownerId?.toMap(),
       'saldo': saldo,

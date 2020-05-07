@@ -5,17 +5,13 @@ import 'package:mobbank/http/webclients/bank_card_webclient.dart';
 import '../models/bank_card.dart';
 import '../models/usuario.dart';
 
-import '../http/webclients/usuario_webclient.dart';
 import '../locator.dart';
 
 class BankCardService {
-  final UsuarioWebClient _usuarioWebClient = locator<UsuarioWebClient>();
   final BankCardWebClient _bankCardClient = locator<BankCardWebClient>();
 
   Future<List<BankCard>> getUserCards(int id) async {
-    Usuario user = await _usuarioWebClient.findOneById(id);
-
-    List<BankCard> userCards = await _bankCardClient.findAll(user.getId());
+    List<BankCard> userCards = await _bankCardClient.findAll(id);
     return userCards;
   }
 

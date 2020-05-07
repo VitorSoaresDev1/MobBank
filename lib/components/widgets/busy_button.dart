@@ -11,6 +11,9 @@ class BusyButton extends StatefulWidget {
   final double width;
   final double height;
   final double shape;
+  final TextStyle buttonTextStyle;
+  final bool isIcon;
+  final IconData icon;
   const BusyButton(
       {@required this.title,
       this.busy = false,
@@ -19,7 +22,10 @@ class BusyButton extends StatefulWidget {
       this.width = 15,
       this.height = 15,
       this.shape = 5,
-      this.enabled = true});
+      this.enabled = true,
+      this.isIcon = false,
+      this.icon,
+      this.buttonTextStyle = buttonTitleTextStyle});
 
   @override
   _BusyButtonState createState() => _BusyButtonState();
@@ -44,10 +50,14 @@ class _BusyButtonState extends State<BusyButton> {
             borderRadius: BorderRadius.circular(widget.shape),
           ),
           child: !widget.busy
-              ? Text(
-                  widget.title,
-                  style: buttonTitleTextStyle,
-                )
+              ? widget.isIcon
+                  ? Icon(widget.icon)
+                  : FittedBox(
+                      child: Text(
+                        widget.title,
+                        style: widget.buttonTextStyle,
+                      ),
+                    )
               : CircularProgressIndicator(
                   strokeWidth: 2,
                   valueColor: AlwaysStoppedAnimation<Color>(Colors.white)),

@@ -38,17 +38,19 @@ class _SignInState extends State<SignIn> {
                 child: Stack(
                   children: <Widget>[
                     Positioned(
-                        child: FadeAnimation(
-                      1,
-                      Container(
-                        decoration: BoxDecoration(
-                          image: DecorationImage(
-                            fit: BoxFit.cover,
-                            image: AssetImage("assets/images/purple_wave.png"),
+                      child: FadeAnimation(
+                        1,
+                        Container(
+                          decoration: BoxDecoration(
+                            image: DecorationImage(
+                              fit: BoxFit.cover,
+                              image:
+                                  AssetImage("assets/images/purple_wave.png"),
+                            ),
                           ),
                         ),
                       ),
-                    ))
+                    )
                   ],
                 ),
               ),

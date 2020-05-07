@@ -31,6 +31,8 @@ dependencies:
   http_interceptor:
   mobx:
   flutter_mobx:
+  flutter_money_formatter: ^0.8.3
+  uuid:
 dev_dependencies:
   flutter_test:
     sdk: flutter

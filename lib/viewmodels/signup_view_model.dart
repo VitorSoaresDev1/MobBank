@@ -28,7 +28,8 @@ class SignUpViewModel extends BaseModel {
 
     if (result is bool) {
       if (result) {
-        Usuario user = new Usuario(id: 0, nome: nome, email: email);
+        Usuario user =
+            new Usuario(id: 0, nome: nome, email: email, senha: password);
         await _usuarioWebClient.save(user);
         user = await _usuarioWebClient.findOneByEmail(user.email);
         _dialogService.showDialog(

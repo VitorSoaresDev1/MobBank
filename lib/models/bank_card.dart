@@ -8,14 +8,14 @@ class BankCard {
   final DateTime dataCriacao;
   final DateTime dataExpiracao;
   final String numeroConta;
-  final Usuario ownerId;
+  final Usuario userId;
   final double saldo;
   BankCard({
     this.id,
     this.dataCriacao,
     this.dataExpiracao,
     this.numeroConta,
-    this.ownerId,
+    this.userId,
     this.saldo,
   });
 
@@ -24,7 +24,7 @@ class BankCard {
 
   get currency {
     FlutterMoneyFormatter fmf = new FlutterMoneyFormatter(
-        amount: 155248.80,
+        amount: this.saldo,
         settings: MoneyFormatterSettings(
             symbol: 'R\$',
             thousandSeparator: '.',
@@ -36,15 +36,31 @@ class BankCard {
     return currency;
   }
 
+  BankCard copyWith({
+    int id,
+    DateTime dataCriacao,
+    DateTime dataExpiracao,
+    String numeroConta,
+    Usuario userId,
+    double saldo,
+  }) {
+    return BankCard(
+      id: id ?? this.id,
+      dataCriacao: dataCriacao ?? this.dataCriacao,
+      dataExpiracao: dataExpiracao ?? this.dataExpiracao,
+      numeroConta: numeroConta ?? this.numeroConta,
+      userId: userId ?? this.userId,
+      saldo: saldo ?? this.saldo,
+    );
+  }
+
   Map<String, dynamic> toMap() {
     return {
       'id': id,
-      'dataCriacao': DateTime.fromMillisecondsSinceEpoch(
-          dataCriacao?.millisecondsSinceEpoch),
-      'dataExpiracao': DateTime.fromMillisecondsSinceEpoch(
-          dataExpiracao?.millisecondsSinceEpoch),
+      'dataCriacao': this.dataCriacao.toString(),
+      'dataExpiracao': this.dataExpiracao.toString(),
       'numeroConta': numeroConta,
-      'ownerId': ownerId?.toMap(),
+      'ownerId': userId?.toMap(),
       'saldo': saldo,
     };
   }
@@ -57,7 +73,7 @@ class BankCard {
       dataCriacao: DateTime.parse(map['dataCriacao']),
       dataExpiracao: DateTime.parse(map['dataExpiracao']),
       numeroConta: map['numeroConta'],
-      ownerId: Usuario.fromMap(map['ownerId']),
+      userId: Usuario.fromMap(map['ownerId']),
       saldo: map['saldo'],
     );
   }
@@ -65,6 +81,11 @@ class BankCard {
   String toJson() => json.encode(toMap());
 
   static BankCard fromJson(String source) => fromMap(json.decode(source));
+
+  @override
+  String toString() {
+    return 'BankCard(id: $id, dataCriacao: $dataCriacao, dataExpiracao: $dataExpiracao, numeroConta: $numeroConta, userId: $userId, saldo: $saldo)';
+  }
 
   @override
   bool operator ==(Object o) {
@@ -75,7 +96,7 @@ class BankCard {
         o.dataCriacao == dataCriacao &&
         o.dataExpiracao == dataExpiracao &&
         o.numeroConta == numeroConta &&
-        o.ownerId == ownerId &&
+        o.userId == userId &&
         o.saldo == saldo;
   }
 
@@ -85,12 +106,7 @@ class BankCard {
         dataCriacao.hashCode ^
         dataExpiracao.hashCode ^
         numeroConta.hashCode ^
-        ownerId.hashCode ^
+        userId.hashCode ^
         saldo.hashCode;
-  }
-
-  @override
-  String toString() {
-    return 'BankCard(id: $id, dataCriacao: $dataCriacao, dataExpiracao: $dataExpiracao, numeroConta: $numeroConta, ownerId: $ownerId, saldo: $saldo)';
   }
 }

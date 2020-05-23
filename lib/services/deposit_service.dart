@@ -5,8 +5,8 @@ import 'package:mobbank/models/deposit.dart';
 class DepositService {
   final DepositWebClient _depositWebClient = locator<DepositWebClient>();
 
-  Future<List<Deposit>> getUserDeposits(int id) async {
-    List<Deposit> userDeposits = await _depositWebClient.findAllByUserId(id);
+  Future<List<Deposit>> getAccountDeposits(int id) async {
+    List<Deposit> userDeposits = await _depositWebClient.findAllByAccountId(id);
     return userDeposits;
   }
 

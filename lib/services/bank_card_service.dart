@@ -22,11 +22,12 @@ class BankCardService {
     for (var i = 0; i < l.length; i++) {
       number = '$number${l[i]}';
     }
-    //Usuario user = await _usuarioWebClient.findOneById(id);
     BankCard card = new BankCard(
       id: 0,
       numeroConta: number,
-      ownerId: user,
+      dataCriacao: DateTime.now(),
+      dataExpiracao: DateTime.now(),
+      userId: user,
       saldo: 0.00,
     );
 

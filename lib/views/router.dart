@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:mobbank/views/dashboard.dart';
 import 'package:mobbank/views/deposito_form.dart';
+import 'package:mobbank/views/pagamento_form.dart';
 import 'package:mobbank/views/sign_up.dart';
 import 'package:mobbank/views/home_view.dart';
 import 'package:mobbank/constants/route_names.dart';
@@ -26,6 +27,11 @@ Route<dynamic> generateRoute(RouteSettings settings) {
       return _getPageRoute(
         routeName: settings.name,
         viewToShow: DepositoForm(arguments: settings.arguments),
+      );
+    case PaymentViewRoute:
+      return _getPageRoute(
+        routeName: settings.name,
+        viewToShow: PagamentoForm(arguments: settings.arguments),
       );
     default:
       return MaterialPageRoute(

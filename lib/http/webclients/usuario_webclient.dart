@@ -35,7 +35,6 @@ class UsuarioWebClient {
   Future<Usuario> save(Usuario usuario) async {
     final String usuarioJson = usuario.toJson();
 
-    await Future.delayed(Duration(seconds: 5));
     final Response response = await client.post(USERS_URL,
         headers: {
           'Content-type': 'application/json',

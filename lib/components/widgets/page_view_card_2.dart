@@ -20,7 +20,7 @@ class _IncomeReportState extends State<IncomeReport> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: EdgeInsets.only(right: 8),
+      margin: EdgeInsets.only(left: 2, right: 0),
       decoration: BoxDecoration(
         color: Colors.grey[500],
         borderRadius: BorderRadius.circular(20),

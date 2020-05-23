@@ -14,18 +14,18 @@ import 'package:mobbank/services/deposit_service.dart';
 import 'package:mobbank/services/navigation_service.dart';
 import 'package:uuid/uuid.dart';
 
-class DepositoForm extends StatefulWidget {
+class PagamentoForm extends StatefulWidget {
   final List<dynamic> arguments;
 
-  const DepositoForm({
+  const PagamentoForm({
     @required this.arguments,
   });
 
   @override
-  _DepositoFormState createState() => _DepositoFormState();
+  _PagamentoFormState createState() => _PagamentoFormState();
 }
 
-class _DepositoFormState extends State<DepositoForm> {
+class _PagamentoFormState extends State<PagamentoForm> {
   final TextEditingController _valueController = TextEditingController();
   final DepositService _depositService = locator<DepositService>();
 
@@ -38,7 +38,7 @@ class _DepositoFormState extends State<DepositoForm> {
     final BankCard _card = widget.arguments[1];
     return Scaffold(
       appBar: AppBar(
-        title: Text('Realizar um deposito'),
+        title: Text('Realizar um pagamento'),
       ),
       body: SingleChildScrollView(
         child: Padding(
@@ -50,7 +50,7 @@ class _DepositoFormState extends State<DepositoForm> {
                 child: Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: Progress(
-                    message: 'Enviando...',
+                    message: 'Efetuando...',
                   ),
                 ),
                 visible: _sending,
@@ -106,7 +106,7 @@ class _DepositoFormState extends State<DepositoForm> {
                 child: SizedBox(
                   width: double.maxFinite,
                   child: RaisedButton(
-                    child: Text('Depositar'),
+                    child: Text('Pagar'),
                     onPressed: () {
                       final double value =
                           double.tryParse(_valueController.text);
@@ -116,7 +116,7 @@ class _DepositoFormState extends State<DepositoForm> {
                           return TransactionAuthDialog(
                               onConfirm: (String password) {
                             final depositCreated = Deposit(
-                                _depositId, value, _card.id, null, 1, password);
+                                _depositId, value, _card.id, null, 2, password);
                             _save(_depositService, depositCreated, password,
                                 context, _user, _card);
                           });
@@ -157,7 +157,7 @@ class _DepositoFormState extends State<DepositoForm> {
       await showDialog(
           context: context,
           builder: (contextDialog) =>
-              SuccessDialog('O valor foi depositado')).then((value) =>
+              SuccessDialog('O pagamento foi efetuado')).then((value) =>
           _navigationService
               .replaceWith(HomeViewRoute, arguments: [_card, _user]));
     }

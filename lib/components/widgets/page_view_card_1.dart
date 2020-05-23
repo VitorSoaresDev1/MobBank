@@ -19,78 +19,82 @@ class Saldo extends StatefulWidget {
 class _SaldoState extends State<Saldo> {
   @override
   Widget build(BuildContext context) {
-    return Container(
-      margin: EdgeInsets.only(right: 8),
-      decoration: BoxDecoration(
-        color: Colors.grey[500],
-        borderRadius: BorderRadius.circular(20),
-      ),
-      child: Card(
-        color: Colors.transparent,
-        elevation: 150,
-        child: Column(
-          children: <Widget>[
-            Row(
+    return ListView(
+      children: <Widget>[
+        Container(
+          margin: EdgeInsets.only(left: 0, right: 2),
+          decoration: BoxDecoration(
+            color: Colors.grey[600],
+            borderRadius: BorderRadius.circular(20),
+          ),
+          child: Card(
+            color: Colors.transparent,
+            elevation: 150,
+            child: Column(
               children: <Widget>[
-                Padding(
-                  padding: const EdgeInsets.only(right: 8.0),
-                  child: CustomCircleAvatar(
-                      text: '${widget.user.initials.toUpperCase()}'),
+                Row(
+                  children: <Widget>[
+                    Padding(
+                      padding: const EdgeInsets.only(right: 8.0),
+                      child: CustomCircleAvatar(
+                          text: '${widget.user.initials.toUpperCase()}'),
+                    ),
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: <Widget>[
+                        Padding(
+                          padding: const EdgeInsets.only(bottom: 8.0),
+                          child: Text(
+                            'Olá, ${widget.user.firstName}',
+                          ),
+                        ),
+                        Text(
+                          'Nº da conta: ${widget.account.spacedAccountNumber}',
+                        ),
+                      ],
+                    ),
+                  ],
                 ),
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
-                    Padding(
-                      padding: const EdgeInsets.only(bottom: 8.0),
-                      child: Text(
-                        'Olá, ${widget.user.firstName}',
+                    Container(
+                      height: 79,
+                      width: 360,
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: <Widget>[
+                          Expanded(
+                            child: FittedBox(
+                              fit: BoxFit.fitHeight,
+                              child: Text('Saldo:'),
+                            ),
+                          ),
+                          SizedBox(width: 180),
+                        ],
                       ),
                     ),
-                    Text(
-                      'Nº da conta: ${widget.account.spacedAccountNumber}',
+                    Container(
+                      height: 79,
+                      width: 400,
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        children: <Widget>[
+                          Text(
+                            '${widget.account.currency}',
+                            maxLines: 1,
+                            style: TextStyle(fontSize: 40),
+                          ),
+                        ],
+                      ),
                     ),
                   ],
                 ),
               ],
             ),
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: <Widget>[
-                Container(
-                  height: 79,
-                  width: 360,
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: <Widget>[
-                      Expanded(
-                        child: FittedBox(
-                          fit: BoxFit.fitHeight,
-                          child: Text('Saldo:'),
-                        ),
-                      ),
-                      SizedBox(width: 180),
-                    ],
-                  ),
-                ),
-                Container(
-                  height: 79,
-                  width: 400,
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.end,
-                    children: <Widget>[
-                      Text(
-                        '${widget.account.currency}',
-                        maxLines: 1,
-                        style: TextStyle(fontSize: 40),
-                      ),
-                    ],
-                  ),
-                ),
-              ],
-            ),
-          ],
-        ),
-      ),
+          ),
+        )
+      ],
     );
   }
 }

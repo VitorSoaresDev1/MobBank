@@ -6,7 +6,7 @@ import 'package:mobbank/http/webclient.dart';
 import 'package:mobbank/models/deposit.dart';
 
 class DepositWebClient {
-  Future<List<Deposit>> findAllByUserId(int id) async {
+  Future<List<Deposit>> findAllByAccountId(int id) async {
     final Response response = await client.get('$DEPOSITS_URL/$id');
     final List<dynamic> decodedJson = jsonDecode(response.body);
     return decodedJson.map((dynamic json) => Deposit.fromJson(json)).toList();
@@ -14,7 +14,6 @@ class DepositWebClient {
 
   Future<Deposit> save(Deposit deposit) async {
     final String depositJson = deposit.toJson();
-    depositJson;
     final Response response = await client.post(DEPOSITS_URL,
         headers: {
           'Content-type': 'application/json',
@@ -36,9 +35,9 @@ class DepositWebClient {
   }
 
   static final Map<int, String> _statusCodeResponses = {
-    400: 'There was an error submiting the transaction',
-    401: 'Authentication Failed',
-    409: 'Transaction already exists'
+    400: 'Houve um erro ao realizar a transação',
+    401: 'Autenticação Falhou',
+    409: 'Transação já existente'
   };
 }
 

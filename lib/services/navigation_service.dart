@@ -5,7 +5,7 @@ class NavigationService {
 
   GlobalKey<NavigatorState> get navigationKey => _navigationKey;
 
-  bool pop() {
+  void pop() {
     return _navigationKey.currentState.pop();
   }
 
@@ -15,6 +15,9 @@ class NavigationService {
   }
 
   Future<dynamic> replaceWith(String routeName, {dynamic arguments}) {
+    if (_navigationKey.currentState.canPop())
+      _navigationKey.currentState
+          .popUntil((route) => !route.navigator.canPop());
     return _navigationKey.currentState
         .pushReplacementNamed(routeName, arguments: arguments);
   }

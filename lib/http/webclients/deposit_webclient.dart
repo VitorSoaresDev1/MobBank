@@ -9,11 +9,17 @@ class DepositWebClient {
   Future<List<Deposit>> findAllByAccountId(int id) async {
     final Response response = await client.get('$DEPOSITS_URL/$id');
 
-    final List<dynamic> decodedJson = jsonDecode(response.body);
-    List<dynamic> dynamicList =
-        decodedJson.map((dynamic json) => Deposit.fromMap(json)).toList();
-    List<Deposit> _depositList = dynamicList.cast<Deposit>();
-    return _depositList;
+    switch (response.statusCode) {
+      case 200:
+        final List<dynamic> decodedJson = jsonDecode(response.body);
+        List<dynamic> dynamicList =
+            decodedJson.map((dynamic json) => Deposit.fromMap(json)).toList();
+        List<Deposit> _depositList = dynamicList.cast<Deposit>();
+        return _depositList;
+        break;
+      default:
+        return List<Deposit>();
+    }
   }
 
   Future<Deposit> save(Deposit deposit) async {

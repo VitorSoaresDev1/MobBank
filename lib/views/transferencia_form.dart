@@ -14,19 +14,21 @@ import 'package:mobbank/services/deposit_service.dart';
 import 'package:mobbank/services/navigation_service.dart';
 import 'package:uuid/uuid.dart';
 
-class PagamentoForm extends StatefulWidget {
+class TransferenciaForm extends StatefulWidget {
   final List<dynamic> arguments;
 
-  const PagamentoForm({
+  const TransferenciaForm({
     @required this.arguments,
   });
 
   @override
-  _PagamentoFormState createState() => _PagamentoFormState();
+  _TransferenciaFormState createState() => _TransferenciaFormState();
 }
 
-class _PagamentoFormState extends State<PagamentoForm> {
+class _TransferenciaFormState extends State<TransferenciaForm> {
   final TextEditingController _valueController = TextEditingController();
+  final TextEditingController _accountNumberController =
+      TextEditingController();
   final DepositService _depositService = locator<DepositService>();
 
   final String _depositId = Uuid().v4();
@@ -38,7 +40,7 @@ class _PagamentoFormState extends State<PagamentoForm> {
     final BankCard _card = widget.arguments[1];
     return Scaffold(
       appBar: AppBar(
-        title: Text('Realizar um pagamento'),
+        title: Text('Realizar uma transferência'),
       ),
       body: SingleChildScrollView(
         child: Padding(
@@ -95,6 +97,15 @@ class _PagamentoFormState extends State<PagamentoForm> {
               Padding(
                 padding: const EdgeInsets.only(top: 16.0),
                 child: TextField(
+                  controller: _accountNumberController,
+                  style: TextStyle(fontSize: 24.0),
+                  decoration: InputDecoration(labelText: 'Nº da conta destino'),
+                  keyboardType: TextInputType.numberWithOptions(decimal: true),
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.only(top: 16.0),
+                child: TextField(
                   controller: _valueController,
                   style: TextStyle(fontSize: 24.0),
                   decoration: InputDecoration(labelText: 'Value'),
@@ -106,17 +117,25 @@ class _PagamentoFormState extends State<PagamentoForm> {
                 child: SizedBox(
                   width: double.maxFinite,
                   child: RaisedButton(
-                    child: Text('Pagar'),
+                    child: Text('Transferir'),
                     onPressed: () {
                       final double value =
                           double.tryParse(_valueController.text);
+                      final int transferTo =
+                          int.tryParse(_accountNumberController.text);
                       showDialog(
                         context: context,
                         builder: (contextDialog) {
                           return TransactionAuthDialog(
                               onConfirm: (String password) {
                             final depositCreated = Deposit(
-                                _depositId, value, _card.id, null, 2, password);
+                                _depositId,
+                                value,
+                                _card.id,
+                                transferTo,
+                                3,
+                                password,
+                                DateTime.now());
                             _save(_depositService, depositCreated, password,
                                 context, _user, _card);
                           });
@@ -157,7 +176,7 @@ class _PagamentoFormState extends State<PagamentoForm> {
       await showDialog(
           context: context,
           builder: (contextDialog) =>
-              SuccessDialog('O pagamento foi efetuado')).then((value) =>
+              SuccessDialog('O transferência foi realizada.')).then((value) =>
           _navigationService
               .replaceWith(HomeViewRoute, arguments: [_card, _user]));
     }

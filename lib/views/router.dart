@@ -5,6 +5,7 @@ import 'package:mobbank/views/pagamento_form.dart';
 import 'package:mobbank/views/sign_up.dart';
 import 'package:mobbank/views/home_view.dart';
 import 'package:mobbank/constants/route_names.dart';
+import 'package:mobbank/views/transferencia_form.dart';
 
 Route<dynamic> generateRoute(RouteSettings settings) {
   switch (settings.name) {
@@ -32,6 +33,11 @@ Route<dynamic> generateRoute(RouteSettings settings) {
       return _getPageRoute(
         routeName: settings.name,
         viewToShow: PagamentoForm(arguments: settings.arguments),
+      );
+    case TransferViewRoute:
+      return _getPageRoute(
+        routeName: settings.name,
+        viewToShow: TransferenciaForm(arguments: settings.arguments),
       );
     default:
       return MaterialPageRoute(

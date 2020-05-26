@@ -15,6 +15,12 @@ class BankCardService {
     return userCards;
   }
 
+  Future<double> totalValue(int id) async {
+    List<BankCard> userCards = await _bankCardClient.findAll(id);
+    List<double> amount = userCards.map((card) => card.saldo).toList();
+    return amount.reduce((value, element) => value + element);
+  }
+
   Future<void> saveCard(Usuario user) async {
     var rng = new Random();
     var l = new List.generate(9, (_) => rng.nextInt(9));

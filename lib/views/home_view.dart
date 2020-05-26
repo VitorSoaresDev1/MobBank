@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:mobbank/animation/fade_animation.dart';
 import 'package:mobbank/components/widgets/draggable_report.dart';
+import 'package:mobbank/components/widgets/drawer.dart';
 import 'package:mobbank/components/widgets/feature_item.dart';
 import 'package:mobbank/components/widgets/page_view_card_1.dart';
 import 'package:mobbank/components/widgets/page_view_card_2.dart';
@@ -8,7 +9,10 @@ import 'package:mobbank/components/widgets/progress.dart';
 import 'package:mobbank/constants/route_names.dart';
 import 'package:mobbank/locator.dart';
 import 'package:mobbank/models/bank_card.dart';
+import 'package:mobbank/models/deposit.dart';
 import 'package:mobbank/models/usuario.dart';
+import 'package:mobbank/services/bank_card_service.dart';
+import 'package:mobbank/services/deposit_service.dart';
 import 'package:mobbank/services/navigation_service.dart';
 import 'package:mobbank/viewmodels/home_view_model.dart';
 import 'package:provider_architecture/viewmodel_provider.dart';
@@ -26,7 +30,10 @@ class HomeView extends StatefulWidget {
 
 class _HomeViewState extends State<HomeView> {
   final NavigationService _navigationService = locator<NavigationService>();
+  List<Deposit> transactions = new List<Deposit>();
+  String tipo;
   bool depositVisibility = false;
+  Color iconColor;
   final int _numPages = 2;
   final PageController _pageController = PageController(initialPage: 0);
   int _currentPage = 0;
@@ -55,18 +62,26 @@ class _HomeViewState extends State<HomeView> {
   Widget build(BuildContext context) {
     BankCard _card = widget.arguments[0];
     Usuario _user = widget.arguments[1];
+    final BankCardService _bankCardService = locator<BankCardService>();
+    final DepositService _depositService = locator<DepositService>();
 
     return ViewModelProvider<HomeViewModel>.withConsumer(
       viewModel: HomeViewModel(),
       builder: (context, model, child) {
         return FutureBuilder(
-          future: model.updateAccountView(_card.id, _user.id),
+          future: Future.wait([
+            model.updateAccountView(_card.id, _user.id),
+            _bankCardService.totalValue(_user.id),
+            _depositService.getAccountDeposits(_card.id),
+          ]),
           builder: (context, snapshot) {
             if (!snapshot.hasData)
               return Container(child: Scaffold(body: Progress()));
-            BankCard _account = snapshot.data;
+            BankCard _account = snapshot.data[0];
+            List<Deposit> _deposits = snapshot.data[2];
             return new Scaffold(
               backgroundColor: Color(0xff21254A),
+              endDrawer: AppDrawer(profile: _user, ammount: snapshot.data[1]),
               body: SafeArea(
                 child: Scaffold(
                   body: Stack(
@@ -113,6 +128,24 @@ class _HomeViewState extends State<HomeView> {
                                                   fontWeight: FontWeight.bold,
                                                   fontStyle: FontStyle.italic),
                                             ),
+                                          ),
+                                        ),
+                                        Positioned(
+                                          top: 100,
+                                          right: -15,
+                                          child: Container(
+                                            height: 40,
+                                            width: 40,
+                                            decoration: BoxDecoration(
+                                                color: Colors.grey[800],
+                                                shape: BoxShape.circle),
+                                            child: Align(
+                                                alignment: Alignment.centerLeft,
+                                                child: Row(
+                                                  children: <Widget>[
+                                                    Icon(Icons.fast_rewind)
+                                                  ],
+                                                )),
                                           ),
                                         ),
                                       ],
@@ -171,7 +204,9 @@ class _HomeViewState extends State<HomeView> {
                                   FeatureItem(
                                     'Transferir',
                                     Icons.monetization_on,
-                                    onClick: () => print('transfer'),
+                                    onClick: () => _navigationService
+                                        .navigateTo(TransferViewRoute,
+                                            arguments: [_user, _account]),
                                   ),
                                 ],
                               ),
@@ -188,13 +223,22 @@ class _HomeViewState extends State<HomeView> {
                                     Icons.description,
                                     onClick: () => setState(() {
                                       depositVisibility = !depositVisibility;
+                                      transactions =
+                                          model.filterDeposit(_deposits);
+                                      tipo = 'Depósitos';
+                                      iconColor = Colors.green;
                                     }),
                                   ),
                                   FeatureItem(
                                     'Extrato de Pagamentos',
                                     Icons.description,
-                                    onClick: () =>
-                                        print('Extrato de pagamentos'),
+                                    onClick: () => setState(() {
+                                      depositVisibility = !depositVisibility;
+                                      transactions =
+                                          model.filterPayment(_deposits);
+                                      tipo = 'Pagamentos';
+                                      iconColor = Colors.red;
+                                    }),
                                   ),
                                   FeatureItem(
                                     'Extrato de Transferências',
@@ -214,6 +258,9 @@ class _HomeViewState extends State<HomeView> {
                           onDoubleClick: () => setState(
                               () => depositVisibility = !depositVisibility),
                           profile: _user,
+                          transactions: transactions,
+                          tipo: tipo,
+                          iconColor: iconColor,
                         ),
                       ),
                     ],

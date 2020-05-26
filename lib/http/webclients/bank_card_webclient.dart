@@ -10,7 +10,6 @@ class BankCardWebClient {
   Future<List<BankCard>> findAll(userId) async {
     final Response response = await client.get('$BANKCARDS_URL/$userId');
     if (response.statusCode == 200) {
-      print("buscando");
       final List<dynamic> decodedJson = jsonDecode(response.body);
       List<dynamic> dynamicList =
           decodedJson.map((dynamic json) => BankCard.fromMap(json)).toList();

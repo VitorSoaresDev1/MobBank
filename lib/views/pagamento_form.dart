@@ -115,8 +115,8 @@ class _PagamentoFormState extends State<PagamentoForm> {
                         builder: (contextDialog) {
                           return TransactionAuthDialog(
                               onConfirm: (String password) {
-                            final depositCreated = Deposit(
-                                _depositId, value, _card.id, null, 2, password);
+                            final depositCreated = Deposit(_depositId, value,
+                                _card.id, null, 2, password, DateTime.now());
                             _save(_depositService, depositCreated, password,
                                 context, _user, _card);
                           });

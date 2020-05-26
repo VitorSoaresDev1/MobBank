@@ -14,11 +14,7 @@ class UsuarioWebClient {
 
   Future<Usuario> findOneByEmail(String email) async {
     final Response response = await client.get('$USERS_URL/byemail/$email');
-
-    if (response.statusCode == 200) {
-      return Usuario.fromJson(response.body);
-    }
-
+    if (response.statusCode == 200) return Usuario.fromJson(response.body);
     throw new HttpException(_getMessage(response.statusCode));
   }
 

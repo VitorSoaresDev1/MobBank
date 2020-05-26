@@ -1,6 +1,7 @@
 import 'package:mobbank/http/webclients/bank_card_webclient.dart';
 import 'package:mobbank/locator.dart';
 import 'package:mobbank/models/bank_card.dart';
+import 'package:mobbank/models/deposit.dart';
 
 import 'package:mobbank/viewmodels/base_model.dart';
 
@@ -12,4 +13,13 @@ class HomeViewModel extends BaseModel {
     BankCard userCard = userCards[userCards.indexWhere((e) => e.id == cardId)];
     return userCard;
   }
+
+  List<Deposit> filterDeposit(List<Deposit> transactions) =>
+      transactions.where((transaction) => transaction.tipo == 1).toList();
+
+  List<Deposit> filterPayment(List<Deposit> transactions) =>
+      transactions.where((transaction) => transaction.tipo == 2).toList();
+
+  List<Deposit> filterTransfers(List<Deposit> transactions) =>
+      transactions.where((transaction) => transaction.tipo == 3).toList();
 }

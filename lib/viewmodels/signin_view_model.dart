@@ -1,5 +1,6 @@
 import 'package:flutter/foundation.dart';
 import 'package:mobbank/locator.dart';
+import 'package:mobbank/models/usuario.dart';
 import 'package:mobbank/services/authentication_service.dart';
 import 'package:mobbank/services/dialog_service.dart';
 import 'package:mobbank/services/navigation_service.dart';
@@ -26,8 +27,17 @@ class SignInViewModel extends BaseModel {
 
     if (result is bool) {
       if (result) {
-        _navigationService.replaceWith(DashBoardRoute,
-            arguments: [await _usersService.getUsuario(email)]);
+        Usuario user;
+        try {
+          user = await _usersService.getUsuario(email);
+          _navigationService.replaceWith(DashBoardRoute, arguments: [user]);
+        } catch (e) {
+          await _dialogService.showDialog(
+            title: 'Falha no Login',
+            description: "Falha na comunicação com o servidor.",
+          );
+          setBusy(false);
+        }
       } else {
         await _dialogService.showDialog(
           title: 'Falha no Login',

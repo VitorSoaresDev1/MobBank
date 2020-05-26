@@ -7,6 +7,7 @@ class Deposit {
   final int transferTo;
   final int tipo;
   final String senha;
+  final DateTime dataRealizacao;
 
   Deposit(
     this.uuid,
@@ -15,6 +16,7 @@ class Deposit {
     this.transferTo,
     this.tipo,
     this.senha,
+    this.dataRealizacao,
   ) : assert(value > 0);
 
   Map<String, dynamic> toMap() {
@@ -25,6 +27,7 @@ class Deposit {
       'transferTo': transferTo,
       'tipo': tipo,
       'senha': senha,
+      'dataRealizacao': dataRealizacao?.millisecondsSinceEpoch,
     };
   }
 
@@ -38,6 +41,7 @@ class Deposit {
       map['transferTo'],
       map['tipo'],
       map['senha'],
+      DateTime.parse(map['dataRealizacao']),
     );
   }
 
@@ -47,6 +51,6 @@ class Deposit {
 
   @override
   String toString() {
-    return 'Deposit(uuid: $uuid, value: $value, cardId: $cardId, transferTo: $transferTo, tipo: $tipo, senha: $senha)';
+    return 'Deposit(uuid: $uuid, value: $value, cardId: $cardId, transferTo: $transferTo, tipo: $tipo, senha: $senha, dataRealizacao: $dataRealizacao)';
   }
 }

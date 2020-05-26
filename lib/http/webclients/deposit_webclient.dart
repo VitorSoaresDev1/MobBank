@@ -8,8 +8,12 @@ import 'package:mobbank/models/deposit.dart';
 class DepositWebClient {
   Future<List<Deposit>> findAllByAccountId(int id) async {
     final Response response = await client.get('$DEPOSITS_URL/$id');
+
     final List<dynamic> decodedJson = jsonDecode(response.body);
-    return decodedJson.map((dynamic json) => Deposit.fromJson(json)).toList();
+    List<dynamic> dynamicList =
+        decodedJson.map((dynamic json) => Deposit.fromMap(json)).toList();
+    List<Deposit> _depositList = dynamicList.cast<Deposit>();
+    return _depositList;
   }
 
   Future<Deposit> save(Deposit deposit) async {

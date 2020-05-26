@@ -1,21 +1,27 @@
 import 'package:flutter/material.dart';
+import 'package:mobbank/models/deposit.dart';
 import 'package:mobbank/models/usuario.dart';
 
 class DraggableReport extends StatelessWidget {
   final Function onDoubleClick;
   final Usuario profile;
-  final List<Icon> icons = new List<Icon>();
+  final List<Deposit> transactions;
+  final String tipo;
+  final Color iconColor;
   DraggableReport({
     Key key,
     @required this.onDoubleClick,
     @required this.profile,
+    @required this.transactions,
+    @required this.tipo,
+    @required this.iconColor,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return DraggableScrollableSheet(
-      initialChildSize: 0.1,
-      minChildSize: 0.1,
+      initialChildSize: 0.09,
+      minChildSize: 0.09,
       maxChildSize: 0.85,
       builder: (context, scrollController) {
         return Container(
@@ -28,7 +34,7 @@ class DraggableReport extends StatelessWidget {
                   onDoubleTap: () => onDoubleClick(),
                   child: ListTile(
                     title: Text(
-                      'Relatório de Depositos',
+                      'Relatório de $tipo',
                       style: TextStyle(color: Colors.white),
                     ),
                     trailing: Icon(
@@ -61,7 +67,7 @@ class DraggableReport extends StatelessWidget {
                           padding: const EdgeInsets.all(4.0),
                           child: ListView.builder(
                             shrinkWrap: true,
-                            itemCount: 15,
+                            itemCount: transactions.length,
                             controller: ScrollController(),
                             itemExtent: 81,
                             itemBuilder: (buildContext, index) {
@@ -71,18 +77,18 @@ class DraggableReport extends StatelessWidget {
                                     color: Colors.grey[200],
                                     elevation: 0,
                                     child: ListTile(
-                                      onTap: () => print("Deposit ListTile"),
+                                      onTap: () => null,
                                       leading: Icon(
                                         Icons.attach_money,
-                                        color: Colors.green,
+                                        color: iconColor,
                                       ),
                                       title: Text(
-                                        'Alerta: Description',
+                                        'Data: ${transactions[index].dataRealizacao}',
                                         style: TextStyle(color: Colors.black),
                                         maxLines: 1,
                                       ),
                                       subtitle: Text(
-                                        'Nível: ',
+                                        'Valor: ${transactions[index].value}',
                                         style: TextStyle(color: Colors.black),
                                       ),
                                     ),

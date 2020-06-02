@@ -8,6 +8,7 @@ class DraggableReport extends StatelessWidget {
   final List<Deposit> transactions;
   final String tipo;
   final Color iconColor;
+  final int code;
   DraggableReport({
     Key key,
     @required this.onDoubleClick,
@@ -15,6 +16,7 @@ class DraggableReport extends StatelessWidget {
     @required this.transactions,
     @required this.tipo,
     @required this.iconColor,
+    @required this.code,
   }) : super(key: key);
 
   @override
@@ -69,8 +71,21 @@ class DraggableReport extends StatelessWidget {
                             shrinkWrap: true,
                             itemCount: transactions.length,
                             controller: ScrollController(),
-                            itemExtent: 81,
+                            itemExtent: code != 3 ? 81 : 96,
                             itemBuilder: (buildContext, index) {
+                              Color color;
+                              switch (transactions[index].tipo) {
+                                case 1:
+                                  color = Colors.green;
+                                  break;
+                                case 2:
+                                  color = Colors.red;
+                                  break;
+                                case 3:
+                                  color = Colors.blue;
+                                  break;
+                                default:
+                              }
                               return Column(
                                 children: <Widget>[
                                   Card(
@@ -80,17 +95,36 @@ class DraggableReport extends StatelessWidget {
                                       onTap: () => null,
                                       leading: Icon(
                                         Icons.attach_money,
-                                        color: iconColor,
+                                        color: code > 3 ? color : iconColor,
                                       ),
                                       title: Text(
                                         'Data: ${transactions[index].dataRealizacao}',
                                         style: TextStyle(color: Colors.black),
                                         maxLines: 1,
                                       ),
-                                      subtitle: Text(
-                                        'Valor: ${transactions[index].value}',
-                                        style: TextStyle(color: Colors.black),
-                                      ),
+                                      subtitle: code != 3
+                                          ? Text(
+                                              'Valor: ${transactions[index].value}',
+                                              style: TextStyle(
+                                                  color: Colors.black))
+                                          : Column(
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.start,
+                                              children: <Widget>[
+                                                Text(
+                                                    'Valor: ${transactions[index].value}',
+                                                    textAlign: TextAlign.left,
+                                                    style: TextStyle(
+                                                      color: Colors.black,
+                                                    )),
+                                                Text(
+                                                    'Transferência para conta: ${transactions[index].transferTo}',
+                                                    textAlign: TextAlign.left,
+                                                    style: TextStyle(
+                                                        color: Colors.black)),
+                                              ],
+                                            ),
+                                      isThreeLine: code != 3 ? false : true,
                                     ),
                                   ),
                                 ],

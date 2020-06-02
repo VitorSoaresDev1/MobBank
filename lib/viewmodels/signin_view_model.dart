@@ -43,12 +43,14 @@ class SignInViewModel extends BaseModel {
           title: 'Falha no Login',
           description: 'Falha no Login. Por favor, tente novamente.',
         );
+        setBusy(false);
       }
     } else {
       await _dialogService.showDialog(
         title: 'Falha no Login',
         description: result,
       );
+      setBusy(false);
     }
   }
 }

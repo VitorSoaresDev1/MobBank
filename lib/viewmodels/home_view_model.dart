@@ -22,4 +22,20 @@ class HomeViewModel extends BaseModel {
 
   List<Deposit> filterTransfers(List<Deposit> transactions) =>
       transactions.where((transaction) => transaction.tipo == 3).toList();
+
+  List<Deposit> getAllIncome(List<Deposit> deposits, List<Deposit> incomes) =>
+      [...deposits, ...incomes];
+
+  List<Deposit> getAllOutgoings(List<Deposit> transactions) =>
+      transactions.where((transaction) => transaction.tipo != 1).toList();
+
+  double totalIncome(List<Deposit> income) => income
+      .map((e) => e.value)
+      .toList()
+      .reduce((value, element) => value + element);
+
+  double totalOutgoings(List<Deposit> outgoings) => outgoings
+      .map((e) => e.value)
+      .toList()
+      .reduce((value, element) => value + element);
 }

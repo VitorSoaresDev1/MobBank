@@ -11,4 +11,8 @@ class DepositService {
   Future<Deposit> saveDeposit(Deposit deposit) async {
     return await _depositWebClient.save(deposit);
   }
+
+  Future<List<Deposit>> getReceivedDeposits(String numeroConta) async {
+    return await _depositWebClient.findIncomes(int.tryParse(numeroConta));
+  }
 }

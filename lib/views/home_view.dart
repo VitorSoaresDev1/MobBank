@@ -32,6 +32,7 @@ class _HomeViewState extends State<HomeView> {
   final NavigationService _navigationService = locator<NavigationService>();
   List<Deposit> transactions = new List<Deposit>();
   String tipo;
+  int code;
   bool depositVisibility = false;
   Color iconColor;
   final int _numPages = 2;
@@ -73,12 +74,14 @@ class _HomeViewState extends State<HomeView> {
             model.updateAccountView(_card.id, _user.id),
             _bankCardService.totalValue(_user.id),
             _depositService.getAccountDeposits(_card.id),
+            _depositService.getReceivedDeposits(_card.numeroConta),
           ]),
           builder: (context, snapshot) {
             if (!snapshot.hasData)
               return Container(child: Scaffold(body: Progress()));
             BankCard _account = snapshot.data[0];
             List<Deposit> _deposits = snapshot.data[2];
+            List<Deposit> _incomes = snapshot.data[3];
             return new Scaffold(
               backgroundColor: Color(0xff21254A),
               endDrawer: AppDrawer(profile: _user, ammount: snapshot.data[1]),
@@ -169,7 +172,27 @@ class _HomeViewState extends State<HomeView> {
                                 },
                                 children: <Widget>[
                                   Saldo(account: _account, user: _user),
-                                  IncomeReport(account: _account, user: _user),
+                                  IncomeReport(
+                                    account: _account,
+                                    user: _user,
+                                    deposits: _deposits,
+                                    incomes: _incomes,
+                                    incomeClick: () => setState(() {
+                                      depositVisibility = !depositVisibility;
+                                      transactions = model.getAllIncome(
+                                          model.filterDeposit(_deposits),
+                                          _incomes);
+                                      tipo = 'Recebimentos';
+                                      code = 4;
+                                    }),
+                                    outgoingClick: () => setState(() {
+                                      depositVisibility = !depositVisibility;
+                                      transactions =
+                                          model.getAllOutgoings(_deposits);
+                                      tipo = 'Saídas';
+                                      code = 4;
+                                    }),
+                                  ),
                                 ],
                               ),
                             ),
@@ -226,6 +249,7 @@ class _HomeViewState extends State<HomeView> {
                                       transactions =
                                           model.filterDeposit(_deposits);
                                       tipo = 'Depósitos';
+                                      code = 1;
                                       iconColor = Colors.green;
                                     }),
                                   ),
@@ -237,14 +261,21 @@ class _HomeViewState extends State<HomeView> {
                                       transactions =
                                           model.filterPayment(_deposits);
                                       tipo = 'Pagamentos';
+                                      code = 2;
                                       iconColor = Colors.red;
                                     }),
                                   ),
                                   FeatureItem(
                                     'Extrato de Transferências',
                                     Icons.description,
-                                    onClick: () =>
-                                        print('Extrato de Transferências'),
+                                    onClick: () => setState(() {
+                                      depositVisibility = !depositVisibility;
+                                      transactions =
+                                          model.filterTransfers(_deposits);
+                                      tipo = 'Transferências';
+                                      code = 3;
+                                      iconColor = Colors.red;
+                                    }),
                                   ),
                                 ],
                               ),
@@ -257,6 +288,7 @@ class _HomeViewState extends State<HomeView> {
                         child: DraggableReport(
                           onDoubleClick: () => setState(
                               () => depositVisibility = !depositVisibility),
+                          code: code,
                           profile: _user,
                           transactions: transactions,
                           tipo: tipo,

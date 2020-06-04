@@ -26,7 +26,8 @@ dependencies:
   simple_animations: ^1.3.12
   get_it: ^4.0.1
   firebase_auth:
-  provider_architecture: ^1.0.6
+  sqflite: 1.2.1
+  provider_architecture: 1.0.6
   http:
   http_interceptor:
   mobx:

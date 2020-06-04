@@ -1,4 +1,5 @@
 import 'package:get_it/get_it.dart';
+import 'package:mobbank/database/dao/contact_dao.dart';
 import 'package:mobbank/http/webclients/bank_card_webclient.dart';
 import 'package:mobbank/http/webclients/deposit_webclient.dart';
 import 'package:mobbank/http/webclients/usuario_webclient.dart';
@@ -21,4 +22,5 @@ void setupLocator() {
   locator.registerLazySingleton(() => BankCardService());
   locator.registerLazySingleton(() => DepositWebClient());
   locator.registerLazySingleton(() => DepositService());
+  locator.registerLazySingleton(() => ContactDAO());
 }

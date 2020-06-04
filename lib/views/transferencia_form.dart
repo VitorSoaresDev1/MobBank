@@ -7,6 +7,7 @@ import 'package:mobbank/constants/route_names.dart';
 import 'package:mobbank/http/webclients/deposit_webclient.dart';
 import 'package:mobbank/locator.dart';
 import 'package:mobbank/models/bank_card.dart';
+import 'package:mobbank/models/contact.dart';
 import 'package:mobbank/models/deposit.dart';
 import 'package:mobbank/models/dialog_models.dart';
 import 'package:mobbank/models/usuario.dart';
@@ -38,6 +39,10 @@ class _TransferenciaFormState extends State<TransferenciaForm> {
   Widget build(BuildContext context) {
     final Usuario _user = widget.arguments[0];
     final BankCard _card = widget.arguments[1];
+    final Contact _contact = widget.arguments[2];
+    if (_contact.accountNumber != null) {
+      _accountNumberController.text = _contact.accountNumber.toString();
+    }
     return Scaffold(
       appBar: AppBar(
         title: Text('Realizar uma transferência'),
@@ -176,7 +181,7 @@ class _TransferenciaFormState extends State<TransferenciaForm> {
       await showDialog(
           context: context,
           builder: (contextDialog) =>
-              SuccessDialog('O transferência foi realizada.')).then((value) =>
+              SuccessDialog('A transferência foi realizada.')).then((value) =>
           _navigationService
               .replaceWith(HomeViewRoute, arguments: [_card, _user]));
     }

@@ -15,7 +15,7 @@ import 'package:mobbank/services/bank_card_service.dart';
 import 'package:mobbank/services/deposit_service.dart';
 import 'package:mobbank/services/navigation_service.dart';
 import 'package:mobbank/viewmodels/home_view_model.dart';
-import 'package:provider_architecture/viewmodel_provider.dart';
+import 'package:provider_architecture/provider_architecture.dart';
 
 class HomeView extends StatefulWidget {
   final List<dynamic> arguments;
@@ -228,7 +228,7 @@ class _HomeViewState extends State<HomeView> {
                                     'Transferir',
                                     Icons.monetization_on,
                                     onClick: () => _navigationService
-                                        .navigateTo(TransferViewRoute,
+                                        .navigateTo(ContactsListRoute,
                                             arguments: [_user, _account]),
                                   ),
                                 ],

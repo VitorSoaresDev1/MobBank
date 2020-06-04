@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:mobbank/views/contact_form.dart';
+import 'package:mobbank/views/contacts_list.dart';
 import 'package:mobbank/views/dashboard.dart';
 import 'package:mobbank/views/deposito_form.dart';
 import 'package:mobbank/views/pagamento_form.dart';
@@ -38,6 +40,16 @@ Route<dynamic> generateRoute(RouteSettings settings) {
       return _getPageRoute(
         routeName: settings.name,
         viewToShow: TransferenciaForm(arguments: settings.arguments),
+      );
+    case ContactFormRoute:
+      return _getPageRoute(
+        routeName: settings.name,
+        viewToShow: ContactForm(),
+      );
+    case ContactsListRoute:
+      return _getPageRoute(
+        routeName: settings.name,
+        viewToShow: ContactsList(arguments: settings.arguments),
       );
     default:
       return MaterialPageRoute(

@@ -25,10 +25,10 @@ class _ContactsListState extends State<ContactsList> {
       appBar: AppBar(
         title: Text('Transferir Para'),
       ),
-      body: Column(
+      body: ListView(
         children: <Widget>[
           Container(
-            height: MediaQuery.of(context).size.height * 0.76,
+            height: MediaQuery.of(context).size.height * 0.70,
             child: FutureBuilder<List<Contact>>(
               initialData: List(),
               future: _contactDao.findAll(),
@@ -67,7 +67,7 @@ class _ContactsListState extends State<ContactsList> {
           Align(
             alignment: Alignment.centerLeft,
             child: Padding(
-              padding: const EdgeInsets.only(left: 24.0),
+              padding: const EdgeInsets.only(left: 24.0, top: 16),
               child: Container(
                 height: MediaQuery.of(context).size.height * 0.1,
                 width: MediaQuery.of(context).size.width * 0.55,

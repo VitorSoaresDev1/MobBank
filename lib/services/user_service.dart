@@ -9,10 +9,6 @@ class UsersService {
 
   Future getUser() async => await _firebaseAuth.currentUser();
 
-  Future<Usuario> getUsuario(String email) async {
-    FirebaseUser fireUser = await getUser();
-    Usuario _user = await _usuarioWebClient.findOneByEmail(fireUser.email);
-
-    return _user;
-  }
+  Future<Usuario> getUsuario(String email) async =>
+      await _usuarioWebClient.findOneByEmail(email);
 }

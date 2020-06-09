@@ -36,7 +36,6 @@ class BankCardService {
       userId: user,
       saldo: 0.00,
     );
-
     await _bankCardClient.save(card);
   }
 }

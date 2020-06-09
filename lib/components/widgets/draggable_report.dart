@@ -67,70 +67,97 @@ class DraggableReport extends StatelessWidget {
                       child: InkWell(
                         child: Padding(
                           padding: const EdgeInsets.all(4.0),
-                          child: ListView.builder(
-                            shrinkWrap: true,
-                            itemCount: transactions.length,
-                            controller: ScrollController(),
-                            itemExtent: code != 3 ? 81 : 96,
-                            itemBuilder: (buildContext, index) {
-                              Color color;
-                              switch (transactions[index].tipo) {
-                                case 1:
-                                  color = Colors.green;
-                                  break;
-                                case 2:
-                                  color = Colors.red;
-                                  break;
-                                case 3:
-                                  color = Colors.blue;
-                                  break;
-                                default:
-                              }
-                              return Column(
-                                children: <Widget>[
-                                  Card(
-                                    color: Colors.grey[200],
-                                    elevation: 0,
-                                    child: ListTile(
-                                      onTap: () => null,
-                                      leading: Icon(
-                                        Icons.attach_money,
-                                        color: code > 3 ? color : iconColor,
-                                      ),
-                                      title: Text(
-                                        'Data: ${transactions[index].dataRealizacao}',
-                                        style: TextStyle(color: Colors.black),
-                                        maxLines: 1,
-                                      ),
-                                      subtitle: code != 3
-                                          ? Text(
-                                              'Valor: ${transactions[index].value}',
-                                              style: TextStyle(
-                                                  color: Colors.black))
-                                          : Column(
-                                              crossAxisAlignment:
-                                                  CrossAxisAlignment.start,
-                                              children: <Widget>[
-                                                Text(
-                                                    'Valor: ${transactions[index].value}',
-                                                    textAlign: TextAlign.left,
-                                                    style: TextStyle(
-                                                      color: Colors.black,
-                                                    )),
-                                                Text(
-                                                    'Transferência para conta: ${transactions[index].transferTo}',
-                                                    textAlign: TextAlign.left,
-                                                    style: TextStyle(
-                                                        color: Colors.black)),
-                                              ],
+                          child: transactions.length > 0
+                              ? ListView.builder(
+                                  shrinkWrap: true,
+                                  itemCount: transactions.length,
+                                  controller: ScrollController(),
+                                  itemExtent: code != 3 ? 81 : 96,
+                                  itemBuilder: (buildContext, index) {
+                                    Color color;
+                                    switch (transactions[index].tipo) {
+                                      case 1:
+                                        color = Colors.green;
+                                        break;
+                                      case 2:
+                                        color = Colors.red;
+                                        break;
+                                      case 3:
+                                        color = Colors.blue;
+                                        break;
+                                      default:
+                                    }
+                                    return Column(
+                                      children: <Widget>[
+                                        Card(
+                                          color: Colors.grey[200],
+                                          elevation: 0,
+                                          child: ListTile(
+                                            onTap: () => null,
+                                            leading: Icon(
+                                              Icons.attach_money,
+                                              color:
+                                                  code > 3 ? color : iconColor,
                                             ),
-                                      isThreeLine: code != 3 ? false : true,
-                                    ),
+                                            title: Text(
+                                              'Data: ${transactions[index].dataRealizacao}',
+                                              style: TextStyle(
+                                                  color: Colors.black),
+                                              maxLines: 1,
+                                            ),
+                                            subtitle: code != 3
+                                                ? Text(
+                                                    'Valor: ${transactions[index].value}',
+                                                    style: TextStyle(
+                                                        color: Colors.black))
+                                                : Column(
+                                                    crossAxisAlignment:
+                                                        CrossAxisAlignment
+                                                            .start,
+                                                    children: <Widget>[
+                                                      Text(
+                                                          'Valor: ${transactions[index].value}',
+                                                          textAlign:
+                                                              TextAlign.left,
+                                                          style: TextStyle(
+                                                            color: Colors.black,
+                                                          )),
+                                                      Text(
+                                                          'Transferência para conta: ${transactions[index].transferTo}',
+                                                          textAlign:
+                                                              TextAlign.left,
+                                                          style: TextStyle(
+                                                              color: Colors
+                                                                  .black)),
+                                                    ],
+                                                  ),
+                                            isThreeLine:
+                                                code != 3 ? false : true,
+                                          ),
+                                        ),
+                                      ],
+                                    );
+                                  },
+                                )
+                              : Container(
+                                  child: Column(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: <Widget>[
+                                      Icon(
+                                        Icons.search,
+                                        color: Colors.black87,
+                                        size: 40,
+                                      ),
+                                      Text(
+                                        'Nenhum resultado para essa consulta',
+                                        style: TextStyle(
+                                          fontSize: 16,
+                                          color: Colors.black87,
+                                        ),
+                                      ),
+                                    ],
                                   ),
-                                ],
-                              );
-                            },
-                          ),
+                                ),
                         ),
                       ),
                     ),

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:mobbank/locator.dart';
 import 'package:mobbank/views/sign_in.dart';
 import 'package:mobbank/services/dialog_service.dart';

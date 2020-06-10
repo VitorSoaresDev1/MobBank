@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
+import 'package:intl/date_symbol_data_local.dart';
 import 'package:mobbank/models/deposit.dart';
 import 'package:mobbank/models/usuario.dart';
 
@@ -21,6 +23,7 @@ class DraggableReport extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    initializeDateFormatting();
     return DraggableScrollableSheet(
       initialChildSize: 0.09,
       minChildSize: 0.09,
@@ -100,7 +103,7 @@ class DraggableReport extends StatelessWidget {
                                                   code > 3 ? color : iconColor,
                                             ),
                                             title: Text(
-                                              'Data: ${transactions[index].dataRealizacao}',
+                                              'Data: ${DateFormat(DateFormat.YEAR_NUM_MONTH_DAY, 'pt-Br').format(transactions[index].dataRealizacao).toString()} ${DateFormat(DateFormat.HOUR24_MINUTE, 'pt-Br').format(transactions[index].dataRealizacao).toString()}',
                                               style: TextStyle(
                                                   color: Colors.black),
                                               maxLines: 1,

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:intl/date_symbol_data_local.dart';
+import 'package:mobbank/components/helper/currency_helper.dart';
 import 'package:mobbank/models/deposit.dart';
 import 'package:mobbank/models/usuario.dart';
 
@@ -110,7 +111,7 @@ class DraggableReport extends StatelessWidget {
                                             ),
                                             subtitle: code != 3
                                                 ? Text(
-                                                    'Valor: ${transactions[index].value}',
+                                                    'Valor: ${CurrencyHelper.currency(transactions[index].value)}',
                                                     style: TextStyle(
                                                         color: Colors.black))
                                                 : Column(
